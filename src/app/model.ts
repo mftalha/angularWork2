@@ -11,8 +11,6 @@ export class Model{
             { description: "Breakfast", action: "yes"}, //burda interface ile nesnelerin türü verildi.
             { description: "Sport", action: "yes"},
             { description: "Shopping", action: "no"},
-            { description: "Shopping", action: "no"},
-            { description: "Shopping", action: "no"}
         ];
     }
 }

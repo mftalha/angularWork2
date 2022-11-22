@@ -6,8 +6,14 @@
             </h3>
             
             <div class="input-group mb-3"> <!-- Veri girişi için inputlar oluşturacağız , alttan 3 pixsel boşluk-->
-                <input type="text" class="form-control">
-                <button class="btn btn-outline-primary" (click)="addItem()">Add</button>
+                <!-- <input #txtItem type="text" class="form-control"> //sadece input var--> 
+                <!--<input #txtItem type="text" class="form-control" (keyup)="addItem(txtItem.value)"> //input'a herhangi birşey yazdığımda otomatik todo.component içindeki addItem fonksiyonu tetiklensin-->
+                <!-- <input #txtItem type="text" class="form-control" (keyup.enter)="addItem(txtItem.value)"> // enter a tıkladığımda inputun içinde = todo.component içindeki addItem fonksiyonu tetiklensin -->
+                 <input #txtItem type="text" class="form-control" (keyup.enter)="addItem(txtItem.value); txtItem.value=''"> <!-- enter a tıkladığımda inputun içinde = todo.component içindeki addItem fonksiyonu tetiklensin ve inputun içi temizlensin-->
+                <!-- <input #txtItem type="text" class="form-control" (keyup.enter)="addItem(txtItem.value)" (blur)="addItem(txtItem.value)"> // enter a tıkladığımda inputun içinde veya inputtan çıktıgında(blur) = todo.component içindeki addItem fonksiyonu tetiklensin  == add butonuna tıkladığımızda 2 kez çalılyordu(blur yüzünden)-->
+                <!--<button class="btn btn-outline-primary" (click)="addItem(txtItem)">Add</button> = bütün inğutu yolluyorduk-->
+                <!--<button class="btn btn-outline-primary" (click)="addItem(txtItem.value)">Add</button> //sadece inputun valuesini gönderiyoruz.-->
+                <button class="btn btn-outline-primary" (click)="addItem(txtItem.value); txtItem.value=''">Add</button> <!-- inputun valuesini gönderiyoruz ve input u boşaltıyoruz.-->
             </div>
             {{message}}
             <div class="form-check mb-3">

@@ -10,7 +10,7 @@ import { Model } from '../model';
 })
 export class TodoComponent  {
 
-  message = "merhaba";
+  message = "";
   constructor() { }
 
   /* [1]
@@ -51,9 +51,29 @@ export class TodoComponent  {
  
   model = new Model(); //her new model dediğiöde yeni bi kopya oluşturulacak. farklı komponentler için lazım bilgi(ve genel kültür). servis mantıgı varmış 1 kere oluşturunca cobtracterdan new diye onu kullanabiliyormusuz farklı syflarda böylece dışarıdan listeye ekleme yaptıgımda mesela bütün sayfalarda aynı değişikliği görebilleceğim.
 
-  addItem(){
-    console.log("merhaba");
+  /* //inputun tamamı geliyor biz içinden valuesini alıyoruz.
+  addItem(txtItem: any){
+    console.log(txtItem.value);
   }
+  */
+
+  /* konsolo sayfadan gelen verinin basımı ve todo.component.ts de tanımlanıp sayfada görüntülenen değişkenin güncellenmesi
+  addItem(value: string){
+    this.message = value; //sayfaya verilen değişkeni değiştiriyorum  ve direk sayfada uygulanıyor kendisi.(benim getElementçById.value = message dememe gerek kalmıyor her seferinde)
+    console.log(value);
+  }
+  */
+  /* gelen veriyi items listesine yeni veri olarak eklemeekleme */
+  addItem(value: string){
+    if(value !=''){
+      this.model.items.push({ description: value, action: "no"}); //sayfaya verilen değişkeni değiştiriyorum  ve direk sayfada uygulanıyor kendisi.(benim getElementçById.value = message dememe gerek kalmıyor her seferinde)
+    }
+    else{
+      alert("bilgi giriniz");
+    }
+    
+  }
+
   getName(){
     return this.model.name;
   }
