@@ -1,1 +1,50 @@
-<p>todo works!</p>
+<div class="container"> <!-- tarayıcının gneişliğine göre sağdan soldan belli bir boşluk bırakılacak.-->
+    <div class="row"> <!-- bir satır oluştur-->
+        <div class="col-5 mx-auto"> <!---col-5 = bosstrap  ölçüsüne göre 12/5 lik bi genişlik ile oluştur ;; sağdan ve soldan eşit boşluk bırak. -->
+            <h3 class="bg-primary text-white p-3"> <!-- arka ton doldurma primary , yazılar beyaz , 4 köşeden 3'er pixsel boşluk -->
+                {{getName()}}'s Place
+            </h3>
+            
+            <div class="input-group mb-3"> <!-- Veri girişi için inputlar oluşturacağız , alttan 3 pixsel boşluk-->
+                <input type="text" class="form-control">
+                <button class="btn btn-outline-primary" (click)="addItem()">Add</button>
+            </div>
+            {{message}}
+            <div class="form-check mb-3">
+                <input type="checkbox" class="form-check-input" name="" id="displayAll">
+                <label for="displayAll" class="form-check-label">Show All</label> <!-- for verme sebebim checkbox'a bağlı olması -->
+            </div>
+
+            <table class="table table-bordered"> <!-- Bootstrap -->
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- model.ts sayfası içine verileri oluşturmayı kaydırmadan önce
+                    <tr *ngFor="let item of items; let i = index"> //i = indexi alıyor böylece id değerine gerek kalmıyor listedeki   
+                        <td>{{i+1}}</td>
+                        <td>{{item.description}}</td>
+                        <td>{{item.action}}</td>
+                    </tr>
+                    -->
+                    <tr *ngFor="let item of getItems(); let i = index"> <!-- i = indexi alıyor böylece id değerine gerek kalmıyor listedeki   --> 
+                        <td>{{i+1}}</td>
+                        <td>{{item.description}}</td>
+                        <td>{{item.action}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!--
+            <ul>
+                <li *ngFor="let item of items">   snippts sayesinde for döngüsü oluşuyor 
+                    {{item.description}}
+                </li> 
+            </ul> 
+            -->
+        </div>
+    </div>
+</div>

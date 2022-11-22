@@ -21,7 +21,8 @@
     "lib": [
       "es2020",
       "dom"
-    ]
+    ],
+    //"strictNullChecks":false //constracter tanımalamak istemiyorsak objelere == böyle yapabiliyoruz.
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
