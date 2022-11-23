@@ -9,14 +9,14 @@
                 <!-- <input #txtItem type="text" class="form-control"> //sadece input var--> 
                 <!--<input #txtItem type="text" class="form-control" (keyup)="addItem(txtItem.value)"> //input'a herhangi birşey yazdığımda otomatik todo.component içindeki addItem fonksiyonu tetiklensin-->
                 <!-- <input #txtItem type="text" class="form-control" (keyup.enter)="addItem(txtItem.value)"> // enter a tıkladığımda inputun içinde = todo.component içindeki addItem fonksiyonu tetiklensin -->
-                 <!-- <input  #txtItem type="text" class="form-control" (keyup.enter)="addItem(txtItem.value); txtItem.value=''">  enter a tıkladığımda inputun içinde = todo.component içindeki addItem fonksiyonu tetiklensin ve inputun içi temizlensin--> 
+                  <input  #txtItem type="text" class="form-control" (keyup.enter)="addItem(txtItem.value); txtItem.value=''"> <!-- enter a tıkladığımda inputun içinde = todo.component içindeki addItem fonksiyonu tetiklensin ve inputun içi temizlensin--> 
                 <!-- <input #txtItem type="text" class="form-control" (keyup.enter)="addItem(txtItem.value)" (blur)="addItem(txtItem.value)"> // enter a tıkladığımda inputun içinde veya inputtan çıktıgında(blur) = todo.component içindeki addItem fonksiyonu tetiklensin  == add butonuna tıkladığımızda 2 kez çalılyordu(blur yüzünden)-->
-                 <input [(ngModel)]="message" #txtItem type="text" class="form-control" > <!-- todo.components.ts içinde tanımaldığım değişkeni ngModel ile input içinde two-vay bilding yapıyorum böylece = inputta yaptığım en küçük değişiklik direk değişkene yazılıyor : çünkü çift tarflı olarak bağladık. : event ile tıklandıktan sonra veya karekter girdikçe falan diye koşul vermeden todo.components.ts içindeki değişkene direk değeri atıyoruz = kolayca  --> 
+                <!-- <input [(ngModel)]="message" #txtItem type="text" class="form-control" > // todo.components.ts içinde tanımaldığım değişkeni ngModel ile input içinde two-vay bilding yapıyorum böylece = inputta yaptığım en küçük değişiklik direk değişkene yazılıyor : çünkü çift tarflı olarak bağladık. : event ile tıklandıktan sonra veya karekter girdikçe falan diye koşul vermeden todo.components.ts içindeki değişkene direk değeri atıyoruz = kolayca  --> 
                 <!--<button class="btn btn-outline-primary" (click)="addItem(txtItem)">Add</button> = bütün inğutu yolluyorduk-->
                 <!--<button class="btn btn-outline-primary" (click)="addItem(txtItem.value)">Add</button> //sadece inputun valuesini gönderiyoruz.-->
                 <button class="btn btn-outline-primary" (click)="addItem(txtItem.value); txtItem.value=''">Add</button> <!-- inputun valuesini gönderiyoruz ve input u boşaltıyoruz.-->
             </div>
-            {{message}}
+            <!-- {{message}} -->
             <div class="form-check mb-3">
                 <input type="checkbox" [(ngModel)]="displayAll" class="form-check-input" name="" id="displayAll"> <!-- ngModel'ı checkbox ın tıklı olup olmadığını kullanabilmek için == app.module.ts içinde imports ların içine vFormsModule eklememiz gerekiyor bu yapıyı kullanabilmek için == burdaki amacımız two- wal binding yapısı : ts içinden verdiğimiz true burda çalışıyor , sonra burda checkbox a tıklayınca false oluncada burdan oradaki değişkene işleniyor.--> 
                 <label for="displayAll" class="form-check-label">Show All</label> <!-- for verme sebebim checkbox'a bağlı olması -->
@@ -24,7 +24,7 @@
             
             <!--{{displayAll}} -->
 
-            <table class="table table-bordered"> <!-- Bootstrap -->
+            <table class="table table-bordered" *ngIf="getItems().length > 0"> <!-- class : Bootstrap tablo // ngIf = şart belirliyoruz : tabloya veri geliyorsa tabloyu göster -->
                 <thead>
                     <tr>
                         <th></th>
@@ -40,16 +40,32 @@
                         <td>{{item.action}}</td>
                     </tr>
                     -->
+
                     <tr *ngFor="let item of getItems(); let i = index"> <!-- i = indexi alıyor böylece id değerine gerek kalmıyor listedeki   --> 
                         <td>{{i+1}}</td>
                         <td>{{item.description}}</td>
-                        <td>{{item.action}}</td>
+                        <td> <!-- {{item.action}}  -->
+                             <!-- if ile yapma bu işlemi
+                            <div *ngIf="item.action">Yes</div>  //item action true ise yes yaz
+                            <div *ngIf="!item.action">No</div>  //item action false ise No yaz
+                            -->
+                            <div [ngSwitch]="item.action">  <!-- switch - case ile koşul durumu oluşturma -->
+                                <div *ngSwitchCase="true">Yes</div> <!-- item.action = true ise -->
+                                <div *ngSwitchCase="false">No</div>
+                                <!--<div *ngSwitchDefault>No</div> // son şart olarak kullanılabilir(else) -->
+                            </div>
+                        </td> 
                         <td>
                             <input type="checkbox" [(ngModel)]="item.action" name="" id="">
                         </td>
                     </tr>
                 </tbody>
             </table>
+
+            <div class="alert alert-warning" *ngIf="getItems().length == 0"> <!-- listede eleman yoksa uyarı ver == module.ts içindeki lişsteden elemanları silersem gösterir.-->
+                Listede eleman yok.
+            </div>
+
             <!--
             <ul>
                 <li *ngFor="let item of items">   snippts sayesinde for döngüsü oluşuyor 
