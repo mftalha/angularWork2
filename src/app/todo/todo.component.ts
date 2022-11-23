@@ -10,7 +10,9 @@ import { Model } from '../model';
 })
 export class TodoComponent  {
 
-  message = "";
+   message : string = "merhaba";
+
+  displayAll : boolean = false;
   constructor() { }
 
   /* [1]
@@ -66,7 +68,7 @@ export class TodoComponent  {
   /* gelen veriyi items listesine yeni veri olarak eklemeekleme */
   addItem(value: string){
     if(value !=''){
-      this.model.items.push({ description: value, action: "no"}); //sayfaya verilen değişkeni değiştiriyorum  ve direk sayfada uygulanıyor kendisi.(benim getElementçById.value = message dememe gerek kalmıyor her seferinde)
+      this.model.items.push({ description: value, action: false}); //sayfaya verilen değişkeni değiştiriyorum  ve direk sayfada uygulanıyor kendisi.(benim getElementçById.value = message dememe gerek kalmıyor her seferinde)
     }
     else{
       alert("bilgi giriniz");
@@ -79,7 +81,11 @@ export class TodoComponent  {
   }
   
   getItems(){
-    return this.model.items;
+    if(this.displayAll){ //checkbox seçiliyse tüm itemleri göstyer(true ise)
+      return this.model.items;
+    }
+     /*return this.model.items.filter(item => item.action == 'no'); // checkbox seçili değilse (action'u no olan verileri göster sadece) = action 'no' , 'yes' iken */
+     return this.model.items.filter(item => !item.action); // checkbox seçili değilse (action'u no olan verileri göster sadece) 
   }
 }
 

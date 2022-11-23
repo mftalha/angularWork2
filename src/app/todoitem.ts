@@ -30,5 +30,5 @@ td.action;
 // interfa yapısında olmayan obje ismi bu interface ile oluşturulan dizi veya başka yapılar'da kullanılamaz.  == mesela id diye bi alan yok gidipde tanımala içinde id:5 gibi belirtilemez hata verir.
 export interface TodoItem{ // class yapısndaki gibi constrocter oluşturmamıza gerek yok : public , private diye belirtmemizede gerek yok: bu seşilde direk türünü verebiliriz.
     description: string;   
-    action: string;
+    action: boolean;
 }
