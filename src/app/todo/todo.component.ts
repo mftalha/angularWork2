@@ -76,16 +76,20 @@ export class TodoComponent  {
     
   }
 
-  getName(){
+  getName(){ // class dan name  çekmek için.
     return this.model.name;
   }
   
-  getItems(){
+  getItems(){ //Listeki itemleri çekmek için
     if(this.displayAll){ //checkbox seçiliyse tüm itemleri göstyer(true ise)
       return this.model.items;
     }
      /*return this.model.items.filter(item => item.action == 'no'); // checkbox seçili değilse (action'u no olan verileri göster sadece) = action 'no' , 'yes' iken */
      return this.model.items.filter(item => !item.action); // checkbox seçili değilse (action'u no olan verileri göster sadece) 
+  }
+
+  displayCount(){
+    return this.model.items.filter(i => i.action).length; // tamamlanan elemanların sayısını alıyoruz.
   }
 }
 
