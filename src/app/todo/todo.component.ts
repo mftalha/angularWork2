@@ -13,6 +13,8 @@ export class TodoComponent  {
    message : string = "merhaba";
 
   displayAll : boolean = false;
+  inputText: string ="";
+  
   constructor() { }
 
   /* [1]
@@ -66,14 +68,25 @@ export class TodoComponent  {
   }
   */
   /* gelen veriyi items listesine yeni veri olarak eklemeekleme */
-  addItem(value: string){
+  /*
+  addItem(value: string){ 
     if(value !=''){
       this.model.items.push({ description: value, action: false}); //sayfaya verilen değişkeni değiştiriyorum  ve direk sayfada uygulanıyor kendisi.(benim getElementçById.value = message dememe gerek kalmıyor her seferinde)
     }
     else{
       alert("bilgi giriniz");
     }
-    
+  }
+  */
+
+  addItem(){  // inputtaki veriyi ts içindeki değişken ile binding yaotığımızdan artık htmll sayfasından veriyi çekmemize gerek yok.
+    if(this.inputText !=''){ 
+      this.model.items.push({ description: this.inputText, action: false}); //sayfaya verilen değişkeni değiştiriyorum  ve direk sayfada uygulanıyor kendisi.(benim getElementçById.value = message dememe gerek kalmıyor her seferinde)
+      this.inputText ='';
+    }
+    else{
+      alert("bilgi giriniz");
+    }
   }
 
   getName(){ // class dan name  çekmek için.
@@ -90,6 +103,14 @@ export class TodoComponent  {
 
   displayCount(){
     return this.model.items.filter(i => i.action).length; // tamamlanan elemanların sayısını alıyoruz.
+  }
+  // method çagırmak yerine bunları html sayfasındada yaabilirz [class] = içine  
+  getBtnClasses(){ 
+      return { 
+      'disabled': this.inputText.length==0,
+      'btn-secondary': this.inputText.length==0,
+      'btn-primary': this.inputText.length>0 
+    }
   }
 }
 

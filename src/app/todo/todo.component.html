@@ -4,17 +4,23 @@
             <h3 class="bg-primary text-white p-3"> <!-- arka ton doldurma primary , yazılar beyaz , 4 köşeden 3'er pixsel boşluk -->
                 {{getName()}}'s Place
             </h3>
-            
+            {{inputText}}
             <div class="input-group mb-3"> <!-- Veri girişi için inputlar oluşturacağız , alttan 3 pixsel boşluk-->
                 <!-- <input #txtItem type="text" class="form-control"> //sadece input var--> 
                 <!--<input #txtItem type="text" class="form-control" (keyup)="addItem(txtItem.value)"> //input'a herhangi birşey yazdığımda otomatik todo.component içindeki addItem fonksiyonu tetiklensin-->
                 <!-- <input #txtItem type="text" class="form-control" (keyup.enter)="addItem(txtItem.value)"> // enter a tıkladığımda inputun içinde = todo.component içindeki addItem fonksiyonu tetiklensin -->
-                  <input  #txtItem type="text" class="form-control" (keyup.enter)="addItem(txtItem.value); txtItem.value=''"> <!-- enter a tıkladığımda inputun içinde = todo.component içindeki addItem fonksiyonu tetiklensin ve inputun içi temizlensin--> 
+                  <!--<input  #txtItem type="text" class="form-control" (keyup.enter)="addItem(txtItem.value); txtItem.value=''"> // enter a tıkladığımda inputun içinde = todo.component içindeki addItem fonksiyonu tetiklensin ve inputun içi temizlensin--> 
+                  <input  type="text" class="form-control" [(ngModel)]="inputText" (keyup.enter)="addItem(); "> <!-- enter a tıkladığımda inputun içinde = todo.component içindeki addItem fonksiyonu tetiklensin ve inputun içi temizlensin--> 
                 <!-- <input #txtItem type="text" class="form-control" (keyup.enter)="addItem(txtItem.value)" (blur)="addItem(txtItem.value)"> // enter a tıkladığımda inputun içinde veya inputtan çıktıgında(blur) = todo.component içindeki addItem fonksiyonu tetiklensin  == add butonuna tıkladığımızda 2 kez çalılyordu(blur yüzünden)-->
                 <!-- <input [(ngModel)]="message" #txtItem type="text" class="form-control" > // todo.components.ts içinde tanımaldığım değişkeni ngModel ile input içinde two-vay bilding yapıyorum böylece = inputta yaptığım en küçük değişiklik direk değişkene yazılıyor : çünkü çift tarflı olarak bağladık. : event ile tıklandıktan sonra veya karekter girdikçe falan diye koşul vermeden todo.components.ts içindeki değişkene direk değeri atıyoruz = kolayca  --> 
                 <!--<button class="btn btn-outline-primary" (click)="addItem(txtItem)">Add</button> = bütün inğutu yolluyorduk-->
                 <!--<button class="btn btn-outline-primary" (click)="addItem(txtItem.value)">Add</button> //sadece inputun valuesini gönderiyoruz.-->
-                <button class="btn btn-outline-primary" (click)="addItem(txtItem.value); txtItem.value=''">Add</button> <!-- inputun valuesini gönderiyoruz ve input u boşaltıyoruz.-->
+                
+                <!-- <button class="btn btn-outline-primary" (click)="addItem(txtItem.value); txtItem.value=''">Add</button> // inputun valuesini gönderiyoruz ve input u boşaltıyoruz.-->
+                <!--<button [class]="inputText.length==0" class="btn btn-outline-primary" (click)="addItem(); ">Add</button> // class="btn btn-outline-primary disabled" = diye class.ın içine eklediğimizde statik oluyor-->
+                <button [class]="getBtnClasses()" 
+                class="btn"
+                (click)="addItem(); ">Add</button> <!-- class="btn btn-outline-primary" değilde ;; class="btn" bırakıyorum bu da class'ın sonunda sadece btn kalsın demek --> 
             </div>
             <!-- {{message}} -->
             <div class="form-check mb-3">
@@ -53,7 +59,9 @@
                         </tr>
                         -->
     
-                        <tr *ngFor="let item of getItems(); let i = index"> <!-- i = indexi alıyor böylece id değerine gerek kalmıyor listedeki   --> 
+                        <!--<tr *ngFor="let item of getItems(); let i = index" > // i = indexi alıyor böylece id değerine gerek kalmıyor listedeki   --> 
+                        <!-- <tr *ngFor="let item of getItems(); let i = index" [class.bg-primary]="item.action" [class.bg-warning]="!item.action"> // item.action true ise =  class.bg-primary ,, item.action false ise class.bg-warning(sarı)  arka plan gelir  --> 
+                        <tr *ngFor="let item of getItems(); let i = index" [class]="{'bg-primary': item.action , 'bg-warning': !item.action}" > <!-- bu şekildede iki şarta gerek kalmadan tek şart ile işimizi halledebiliriz.  --> 
                             <td>{{i+1}}</td>
                             <td>{{item.description}}</td>
                             <td> <!-- {{item.action}}  -->
