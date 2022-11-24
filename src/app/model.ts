@@ -8,9 +8,11 @@ export class Model{
     constructor(){
         this.name = "Talha";
         this.items = [
+            /*
             { description: "Breakfast", action: true}, //burda interface ile nesnelerin türü verildi.
             { description: "Sport", action: true},
             { description: "Shopping", action: false},
+            */
         ];
     }
 }

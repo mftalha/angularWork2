@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Action } from 'rxjs/internal/scheduler/Action';
 import { Model } from '../model';
+import { TodoItem } from '../todoitem';
 // import { TodoItem } from '../todoitem';  == model ts sayfasında interfase erişim sağlayıp liste oluşturuldugu için artık burda todoitem'a erişime gerek yok.
 
 @Component({
@@ -15,7 +16,9 @@ export class TodoComponent  {
   displayAll : boolean = false;
   inputText: string ="";
   
-  constructor() { }
+  constructor() { 
+    this.model.items = this.getItemsFromLS(); // local strogede veri varsa uygulama başlarken model'in items ine set edilsin.
+  }
 
   /* [1]
   // private name = "Talha"; //değişkeni burada oluşturuyoruz {{name}} şeklinde bu değişken çağrılabilir html sayfasından.
@@ -81,12 +84,41 @@ export class TodoComponent  {
 
   addItem(){  // inputtaki veriyi ts içindeki değişken ile binding yaotığımızdan artık htmll sayfasından veriyi çekmemize gerek yok.
     if(this.inputText !=''){ 
-      this.model.items.push({ description: this.inputText, action: false}); //sayfaya verilen değişkeni değiştiriyorum  ve direk sayfada uygulanıyor kendisi.(benim getElementçById.value = message dememe gerek kalmıyor her seferinde)
+      //this.model.items.push({ description: this.inputText, action: false}); //sayfaya verilen değişkeni değiştiriyorum  ve direk sayfada uygulanıyor kendisi.(benim getElementçById.value = message dememe gerek kalmıyor her seferinde)
+      let data = { description: this.inputText, action: false};
+      this.model.items.push(data); 
+
+      //let items = []; // local stroge içine gelen verilerin hepsini görmek için listeyi atacaz local stroge ye
+      let items = this.getItemsFromLS(); //local stroge deki verileri çekiyorum önce. yeni veri geldiğinde : çünkü set ile attığımda önceki veriler siliniyor local strogedeki : o yüzden ordaki verileri çekip yeni veri ile birleştirip bidaha atıyorum. Todo liste şeklinde.
+      items.push(data);
+
+      localStorage.setItem("items",JSON.stringify(items)); //tarayıcıda : incele de applicationa geliyoruz sol tarafta Local Stroge var onun içinde tarayıcı ip mize tıklayınca erişebiliriz burdan set ile verdigimiz verilere.
       this.inputText ='';
     }
     else{
       alert("bilgi giriniz");
     }
+  }
+
+  getItemsFromLS(){ //Local strogedeki veriyi çekme 
+    let items: TodoItem[] = [];
+    let value = localStorage.getItem("items"); // local strogedeki veriyi çekiyoruz.
+    
+    if(value != null) {
+      items = JSON.parse(value); // local strogedeki veri strşing json tipinde oldugundan ayrıştırıyruz önce üzerinde işlem yapabilmek için.
+    }
+    return items;
+  }
+
+  onActionChange(item: TodoItem){ //checkbox seçildiğinde gir : 
+    let items = this.getItemsFromLS(); // local strogedeki veriyi çekiyorum
+
+    items.forEach(i =>{ 
+      if(i.description == item.description){ // local stroge içindeki verilerden descriptionu check boxda seçilen desc aynı olan veriyse ife gir
+        i.action = item.action; // aitems listesindeki ilgili verinin actionu güncelle
+      }
+    });
+    localStorage.setItem("items",JSON.stringify(items)); // güncellenen veriyle beraber listeyi local stroge ye at
   }
 
   getName(){ // class dan name  çekmek için.
